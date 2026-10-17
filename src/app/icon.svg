@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="6" fill="#1f3a2b"/>
+  <path d="M14 46c10-2 26-2 36 0" stroke="#e8be52" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <text x="32" y="38" text-anchor="middle" font-family="Georgia, serif" font-weight="700" font-size="28" fill="#f4eedf">TV</text>
+</svg>

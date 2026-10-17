@@ -1,0 +1,282 @@
+@import "tailwindcss";
+
+@theme {
+  /* Verde-lavoura */
+  --color-verde-950: #0e2218;
+  --color-verde-900: #132e21;
+  --color-verde-800: #1b3e2c;
+  --color-verde-700: #27583e;
+  --color-verde-600: #377250;
+  --color-verde-400: #6f9d72;
+  --color-verde-200: #c3d6bf;
+  --color-verde-100: #e2ebdd;
+
+  /* Creme / palha (o 200 é o bege-claro do rodapé) */
+  --color-creme-50: #fbf8f1;
+  --color-creme-100: #f3eee2;
+  --color-creme-200: #e9e0cc;
+  --color-creme-300: #d7c9a9;
+
+  /* Dourado-trigo: acento raro */
+  --color-trigo-300: #efd189;
+  --color-trigo-400: #e0b04e;
+  --color-trigo-500: #c8952d;
+
+  --color-tinta: #1b1d18;
+  --color-tinta-suave: #50574b;
+  --color-erro: #a3311f;
+
+  --font-sans: var(--font-plex), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-plex), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, Consolas, monospace;
+
+  --breakpoint-xs: 25rem;
+  --ease-suave: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@layer base {
+  :root {
+    --foco: var(--color-verde-800);
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    background-color: var(--color-creme-100);
+  }
+
+  /* Nada passa da largura da tela. "clip" não cria rolagem própria, então o sticky continua funcionando. */
+  html,
+  body {
+    overflow-x: clip;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background-color: var(--color-creme-100);
+    color: var(--color-tinta);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--foco);
+    outline-offset: 3px;
+  }
+
+  .escuro {
+    --foco: var(--color-trigo-400);
+  }
+
+  summary {
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+@layer components {
+  /* Textura leve de papel, em SVG inline */
+  .textura {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .28 0 0 0 0 .18 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Fileiras de plantio vistas de cima, para fundos escuros */
+  .fileiras {
+    background-image: repeating-linear-gradient(100deg, transparent 0 26px, rgb(255 255 255 / 0.04) 26px 27px);
+  }
+
+  .link-sublinhado {
+    text-decoration-line: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--color-trigo-400);
+    text-underline-offset: 0.3em;
+    transition: color 150ms;
+  }
+}
+
+/* ---------- Animações em CSS (todas desligadas com "reduzir movimento") ---------- */
+
+/* Anel do botão de WhatsApp */
+@keyframes pulsar {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.75);
+    opacity: 0;
+  }
+}
+
+/* Marcador de Tapejara no mapa */
+@keyframes onda {
+  0% {
+    r: 6;
+    opacity: 0.7;
+  }
+  100% {
+    r: 28;
+    opacity: 0;
+  }
+}
+
+/* Embalagem do produto flutuando de leve na página do produto */
+@keyframes flutuar {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Preloader: semente germinando ---------- */
+.preloader {
+  animation: preloader-sair 0.45s ease 1.35s forwards;
+}
+.pre-caule {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: desenhar 0.55s ease-out 0.25s forwards;
+}
+.pre-folha {
+  transform-box: fill-box;
+  transform: scale(0);
+  animation: brotar 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.pre-folha-1 {
+  transform-origin: 100% 100%;
+  animation-delay: 0.7s;
+}
+.pre-folha-2 {
+  transform-origin: 0% 100%;
+  animation-delay: 0.85s;
+}
+.pre-semente {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: inchar 0.4s ease-out forwards;
+}
+.pre-nome {
+  opacity: 0;
+  animation: aparecer 0.4s ease 0.9s forwards;
+}
+@keyframes preloader-sair {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes desenhar {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes brotar {
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes inchar {
+  50% {
+    transform: scale(1.15, 0.9);
+  }
+}
+@keyframes aparecer {
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .preloader {
+    display: none;
+  }
+}
+
+/* ---------- Título de página: cada linha sobe de dentro de uma máscara ---------- */
+.titulo-revelar > span {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+.titulo-revelar > span > span {
+  display: block;
+  animation: subir-texto 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.titulo-revelar > span:nth-child(2) > span {
+  animation-delay: 0.08s;
+}
+.titulo-revelar > span:nth-child(3) > span {
+  animation-delay: 0.16s;
+}
+@keyframes subir-texto {
+  from {
+    transform: translateY(105%);
+  }
+}
+
+/* Cortina da troca de página */
+@keyframes cortina {
+  from {
+    transform: scaleY(1);
+  }
+  to {
+    transform: scaleY(0);
+  }
+}
+
+/* No primeiro carregamento o título espera o preloader sair; nas trocas de página, não. */
+.atraso-inicial > span > span {
+  animation-delay: 1.25s;
+}
+.atraso-inicial > span:nth-child(2) > span {
+  animation-delay: 1.33s;
+}
+.atraso-inicial > span:nth-child(3) > span {
+  animation-delay: 1.41s;
+}
+html[data-navegou] .atraso-inicial > span > span {
+  animation-delay: 0s;
+}
+html[data-navegou] .atraso-inicial > span:nth-child(2) > span {
+  animation-delay: 0.08s;
+}
+html[data-navegou] .atraso-inicial > span:nth-child(3) > span {
+  animation-delay: 0.16s;
+}
+
+/* Faixas do calendário da safra crescendo da esquerda (ligado à rolagem onde o navegador suporta) */
+@keyframes crescer-faixa {
+  from {
+    transform: scaleX(0);
+  }
+}
